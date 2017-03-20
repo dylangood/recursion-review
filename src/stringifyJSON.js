@@ -27,10 +27,9 @@ var stringifyJSON = function(obj) {
 
   //   put commas between collection elements
   if ( 'object' === typeof obj ) {
-    var subsequent = false;
     for ( var k in obj ) {
+      if ( obj[k] === undefined || 'function' === typeof obj[k] ) { continue; }
       string = string + stringifyJSON(k) + ':' + stringifyJSON(obj[k]) + ',';
-      subsequent = true;
     }
     string = '{' + string.slice(0, -1) + '}';
     return string;

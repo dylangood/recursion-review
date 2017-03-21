@@ -4,27 +4,32 @@
 // };
 
 // But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className
+
+//add a new argument to getElementsByClassName
+var getElementsByClassName = function(className, node
 ) {
 
 // initializing
-  var output=[]; CurrentNode=document.body;   
-//inner find function
-  function findClassInNode(node) {
+  var output=[];
+  var node = node || document.body; 
+
   //if node has the correct class Name
     if ( $(node).hasClass(className) ) {
       output.push(node);
     }
 
-  // Recurse inner function in a for loop if there are children
-    if (node.children) {
+  // Recurse whole function in a for loop if there are children
+    if (node.children.length>0) {
+      var childOutput=[];
+      
       for ( var i=0; i<node.children.length; i++ ) { 
-        findClassInNode( node.children[i] );
+        //console.log(node.children[i]);
+        childOutput = childOutput.concat( getElementsByClassName( className, node.children[i] ) );
       }
+
+        output = output.concat(childOutput);
     }
-  }
-  //call inner function on body 
-  findClassInNode(CurrentNode);
+  
   //Return output
   return output;
 };
